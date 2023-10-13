@@ -15,7 +15,7 @@
             <br>
 
             <h5 style="color: black; font-size: 18px">
-                Users who participated in chat
+                Users
             </h5>
 
             {% for obj in allusers %}
@@ -27,21 +27,21 @@
         {% endif %}
         </div>
       </div>
-        <div class="col-lg-8">
+        <div class="col-lg-8" style="max-height:400px;">
         <div class="container">
             <div id="chat-body" class="panel panel-default">
-                <div class="panel-heading" style="color: white; background: darkblue">Speech to text Chat Box</div>
+                <div class="panel-heading" style="color: white; background: darkblue">Speech to find medicine</div>
                 <div id="msg-list-div" class="panel-body">
                     <ul id="msg-list" class="list-group">
                         {% for obj in chat %}
                             <b>{{ obj.user }}</b>
-                            {% if obj.user == request.user %}
+                            {% if obj.user == request.user %}   
                                 <li class="text-right list-group-item">{{ obj.message }}</li>
                             {% else %}
                                 <li class="text-left list-group-item">{{ obj.message }}</li>
                             {% endif %}
                         {% empty %}
-                            <li class="text-right list-group-item">No messages yet!</li>
+                            <li class="text-right list-group-item">No search yet!</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -49,7 +49,7 @@
 
             <br>
 
-            <h3> Send Message </h3>
+            <h3> Search Medicine </h3>
 
             <form id="chat-form" method="post" action="{% url 'chat:post' %}" >
                 {% csrf_token %}
@@ -58,7 +58,7 @@
                     <textarea id="chat-msg" name="chat-msg" class="form-control" />
                     </textarea>
                     <span class="input-group-btn">
-                    <input class="btn btn-default" id="send" type="submit" style="color: darkblue; padding: 16px" value="Send"/>
+                    <input class="btn btn-default" id="send" type="submit" style="color: darkblue; padding: 16px" value="Search"/>
                 </span>
                 </div>
             </form>
@@ -73,7 +73,7 @@
 
                 <br>
                 <h3>
-                    Send Message: Speech to text
+                    Search Medicine: Speech to text
                 </h3>
                 <button id="start-recording">Start</button>
                 <button id="stop-recording" disabled>Stop</button>

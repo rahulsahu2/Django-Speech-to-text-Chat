@@ -1,5 +1,6 @@
 import os
 from chat.models import Chat
+import pandas as pd
 import speech_recognition as sr
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -37,6 +38,7 @@ def upload(request):
     with harvard as source:
         audio = r.record(source)
     msg = r.recognize_google(audio)
+    msg = ProcessData(msg)
     os.remove(filename)
     chat_message = Chat(user=request.user, message=msg)
     if msg != '':
@@ -48,6 +50,7 @@ def post(request):
     if request.method == "POST":
         msg = request.POST.get('msgbox', None)
         print('Our value = ', msg)
+        msg = ProcessData(msg)
         chat_message = Chat(user=request.user, message=msg)
         if msg != '':
             chat_message.save()
@@ -59,3 +62,24 @@ def post(request):
 def messages(request):
     chat = Chat.objects.all()
     return render(request, 'messages.html', {'chat': chat})
+
+def search_string(s, search):
+    return str(search).lower() in str(s).lower()
+
+def ProcessData(text):
+    try:
+        df = pd.read_csv('medicine.csv')
+        df.dropna(inplace = True)
+
+        # Search for the string 'al' in all columns
+        mask = df.map(lambda x: search_string(x, text))
+
+        # Filter the DataFrame based on the mask
+        filtered_df = df.loc[mask.any(axis=1)]
+
+        result = "Decoded Text : {}#".format(text)
+        result = "{}".format(filtered_df["name"].to_numpy())
+        return result
+    except Exception as ex:
+
+        return "Not found matched result for {}".format(text)

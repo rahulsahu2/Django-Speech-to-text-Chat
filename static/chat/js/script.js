@@ -11,6 +11,8 @@ $('#chat-form').on('submit', function(event){
             $('#msg-list').append('<li class="text-right list-group-item">' + json.msg + '</li>');
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
+            var messageBody = document.querySelector('#msg-list-div');
+            messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
         }
     });
 });
@@ -19,6 +21,8 @@ function getMessages(){
     if (!scrolling) {
         $.get('/messages/', function(messages){
             $('#msg-list').html(messages);
+            var messageBody = document.querySelector('#msg-list-div');
+            messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
         });
     }
     scrolling = false;

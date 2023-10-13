@@ -1,5 +1,5 @@
 body, html {
-    min-height: 100%;
+    min-height: 80%;
 }
 body {
     background: rgba(222,219,222,1);
@@ -13,5 +13,7 @@ body {
 
 .panel-body {
     overflow-y: scroll;
-    height: 20%;
+    overflow: auto;
+    max-height: 300px;
+    height: 10%;
 }
