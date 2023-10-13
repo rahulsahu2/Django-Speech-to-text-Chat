@@ -37,10 +37,10 @@ def upload(request):
     harvard = sr.AudioFile(filename)
     with harvard as source:
         audio = r.record(source)
-    msg = r.recognize_google(audio)
-    msg = ProcessData(msg)
+    msg1 = r.recognize_google(audio)
+    msg = ProcessData(msg1)
     os.remove(filename)
-    chat_message = Chat(user=request.user, message=msg)
+    chat_message = Chat(user=msg1, message=msg)
     if msg != '':
         chat_message.save()
     return redirect('/')
